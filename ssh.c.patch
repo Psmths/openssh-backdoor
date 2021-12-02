@@ -1,0 +1,14 @@
+--- openssh-portable-v8.8_p1/ssh.c	2021-12-02 17:04:09.361420943 -0600
++++ openssh-portable-patch/ssh.c	2021-12-02 17:31:51.671605749 -0600
+@@ -930,8 +930,10 @@
+ 				    optarg);
+ 				exit(255);
+ 			}
+-			free(options.ciphers);
++			free(options.ciphers); 
+ 			options.ciphers = xstrdup(optarg);
++		
++			
+ 			break;
+ 		case 'm':
+ 			if (mac_valid(optarg)) {

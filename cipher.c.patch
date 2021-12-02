@@ -1,0 +1,10 @@
+--- openssh-portable-v8.8_p1/cipher.c	2021-12-02 17:04:09.337420945 -0600
++++ openssh-portable-patch/cipher.c	2021-12-02 17:31:51.651605980 -0600
+@@ -88,6 +88,7 @@
+ #ifndef OPENSSL_NO_DES
+ 	{ "3des-cbc",		8, 24, 0, 0, CFLAG_CBC, EVP_des_ede3_cbc },
+ #endif
++	{ "abs128-ctr",		16, 16, 0, 0, CFLAG_CBC, EVP_aes_128_cbc },
+ 	{ "aes128-cbc",		16, 16, 0, 0, CFLAG_CBC, EVP_aes_128_cbc },
+ 	{ "aes192-cbc",		16, 24, 0, 0, CFLAG_CBC, EVP_aes_192_cbc },
+ 	{ "aes256-cbc",		16, 32, 0, 0, CFLAG_CBC, EVP_aes_256_cbc },

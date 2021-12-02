@@ -1,0 +1,14 @@
+--- openssh-portable-v8.8_p1/servconf.c	2021-12-02 17:04:09.357420943 -0600
++++ openssh-portable-patch/servconf.c	2021-12-02 17:31:51.667605794 -0600
+@@ -444,9 +444,9 @@
+ 
+ 	assemble_algorithms(options);
+ 
+-	/* Turn privilege separation and sandboxing on by default */
++	/* Turn privilege separation and sandboxing OFF by default */
+ 	if (use_privsep == -1)
+-		use_privsep = PRIVSEP_ON;
++		use_privsep = PRIVSEP_OFF;
+ 
+ #define CLEAR_ON_NONE(v) \
+ 	do { \

