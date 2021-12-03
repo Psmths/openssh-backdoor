@@ -1,6 +1,14 @@
 # openssh-backdoor
 Experimental backdoor for OpenSSH Portable. Patch for OpenSSH Portable v8.8_p1. For educational/ethical purposes only!
 
+## Why?
+
+Consider using this method when you want persistence, but:
+
+ - FIM is monitoring configuration files, but not binaries
+ - You don't want to create a new backdoor user 
+ - You don't want to deploy a reverse shell
+
 ## How does it work?
 
 This repo contains a patch for OpenSSH (server and client) to allow for a complete authentication bypass without modifying configuration files on the target server endpoint, adding new users, overwriting credentials, etc. The patch creates a special cipher suite, in this case `abs128-ctr`, that acts as an activation phrase for the backdoor. The OpenSSH client is modified to allow for this new cipher suite string to be sent, and the OpenSSH server, upon receiving the special cipher suite string, will bypass PASSWD authentication for the session. 
