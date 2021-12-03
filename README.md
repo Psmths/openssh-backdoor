@@ -30,16 +30,16 @@ make -j 16
 
 To test, run the modified server binary and set it to listen on some port:
 
-`
+```
 sudo /usr/local/sbin/sshd -p 9001
-`
+```
 
 Attempt to authenticate without the special cipher suite string, and a bogus password. This should fail.
-`
+```
 /tmp/ssh root@127.0.0.1 -p 9001 -c "chacha20-poly1305@openssh.com"
-`
+```
 
 Attempt to authenticate with the special cipher suite string, in this case `abs128-ctr`, and a bogus password. This should seccessfully authenticate you as root.
-`
+```
 /tmp/ssh root@127.0.0.1 -p 9001 -c "abs128-ctr,chacha20-poly1305@openssh.com"
-`
+```
