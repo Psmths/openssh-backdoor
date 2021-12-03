@@ -1,5 +1,5 @@
 # openssh-backdoor
-Experimental backdoor for OpenSSH Portable. 
+Experimental backdoor for OpenSSH Portable. Patch for OpenSSH Portable v8.8_p1.
 
 ## How does it work?
 
