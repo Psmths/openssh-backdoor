@@ -29,8 +29,6 @@ patch -u kex.c -i kex.c.patch
 patch -u kex.h -i kex.h.patch
 patch -u packet.h -i packet.h.patch
 patch -u servconf.c -i servconf.c.patch
-patch -u ssh.c -i ssh.c.patch
-patch -u sshd.c -i sshd.c.patch
 autoreconf
 ./configure --bindir=/tmp/
 make -j 16
