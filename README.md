@@ -19,7 +19,7 @@ Additionally, the patch overrides `PermitRootLogin`, allowing clients sending th
 
 ## Installation and Patching 
 
-The following commands when issued will patch OpenSSH and produce a modified ssh client in `/tmp/ssh` and a modified server binary in `/usr/local/sbin/sshd`. 
+The following commands when issued will patch OpenSSH and produce a modified ssh client in `/tmp/ssh` and a modified server binary in `/tmp/sshd`. 
 
 ```
 wget https://github.com/openssh/openssh-portable/archive/refs/tags/V_8_8_P1.tar.gz
